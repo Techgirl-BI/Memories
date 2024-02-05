@@ -23,6 +23,7 @@ app.use("/posts", postRouter)
 app.use("/messages", messageRouter)
 app.use("/notification", notificationRouter )
 app.use("/comment", commentRouter )
+app.use("/likes", commentRouter )
 
 
 
