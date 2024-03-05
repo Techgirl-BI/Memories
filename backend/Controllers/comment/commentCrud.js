@@ -3,8 +3,9 @@ import Comment from "../../Models/Comment.js"
 
 export const createComment = async (req, res) => {
     try {
-      const { content, postId, userId } = req.body;
-      const newComment = new Comment({ content, postId, userId });
+      const { content, postId} = req.body;
+      const newComment = new Comment({ content, postId, user: req?.user?._id
+      });
       await newComment.save();
       res.status(httpStatus.CREATED).json(newComment);
     } catch (error) {

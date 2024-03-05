@@ -1,32 +1,70 @@
 import httpStatus from 'http-status';
 import User from '../../Models/User.js'
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 export const createUser = async (req, res) => {
-    try {
-      const { username, email, password, bio } = req.body;
-      
-      const newUser = new User({
-        username,
-        email,
-        password,
-        bio
-      });
+  try {
+    const { username, email, password, bio } = req.body;
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword, // Store the hashed password
+      bio
+    });
+
+    const savedUser = await newUser.save();
+
+    res.status(httpStatus.CREATED).json({
+      status: 'success',
+      data: savedUser,
+    });
+  } catch (error) {
+    console.error('Error creating user:', error.message);
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+      status: 'error',
+      message: 'Internal Server Error',
+    });
+  }
+};
   
-      const savedUser = await newUser.save();
-  
-      res.status(httpStatus.CREATED).json({
-        status: 'success',
-        data: savedUser,
-      });
-    } catch (error) {
-      console.error('Error creating user:', error.message);
-      res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-        status: 'error',
-        message: 'Internal Server Error',
-      });
+export const loginUser = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Check if the user exists
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(httpStatus.UNAUTHORIZED).json({ message: 'Invalid email or password' });
     }
-  };
-  
+    // Compare passwords
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.status(httpStatus.UNAUTHORIZED).json({ message: 'Invalid email or password' });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    // Return the token
+    res.status(httpStatus.OK).json({user});
+  } catch (error) {
+    console.error(error);
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ message: 'Internal Server Error' });
+  }
+};
+
+export const logoutUser = async (req, res) => {
+  // Invalidate JWT token or destroy session (depending on implementation)
+  // You may also want to clear any stored tokens or session IDs on the client-side
+  res.json({ message: 'Logout successful' });
+};
+
+
 //Get all User
  export const getAllUsers = async (req, res) => {
   try {

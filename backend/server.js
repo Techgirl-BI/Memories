@@ -7,25 +7,25 @@ import {userRouter} from "../backend/Routes/userRoute.js"
 import dotenv from "dotenv";
 dotenv.config({});
 import {dbConnect} from "../backend/Config/dbConnect.js"
-import { postRouter } from './Routes/postRoutes.js';
-import { messageRouter } from './Routes/messagesRoutes.js';
-import {notificationRouter} from './Routes/notificationRoutes.js';
-import { commentRouter } from './Routes/commentRoutes.js';
+import { postRouter } from '../backend/Routes/postRoutes.js';
+// import { messageRouter } from '../Routes/messagesRoutes.js';
+// import {notificationRouter} from '../Routes/notificationRoutes.js';
+// import { commentRouter } from '../Routes/commentRoutes.js';
+// import feedRouter from '../Routes/feedRoutes.js';
 
 const app = express()
 
 app.use(cors())
 app.use(morgan("dev"))
 app.use(express.json())
-app.use(express.static("public"))
+
 app.use("/users", userRouter)
-app.use("/posts", postRouter)
-app.use("/messages", messageRouter)
-app.use("/notification", notificationRouter )
-app.use("/comment", commentRouter )
-app.use("/likes", commentRouter )
-
-
+app.use("/posts", postRouter,)
+// app.use("/messages", messageRouter)
+// app.use("/notification", notificationRouter )
+// app.use("/comment", commentRouter )
+// app.use("/likes", commentRouter )
+// app.use("/feed", feedRouter)
 
 app.get("/", (req, res) => {
     try {
@@ -47,6 +47,7 @@ app.get("/", (req, res) => {
     });
   });
 
+ 
   dbConnect()
   .then((result) => {
     console.log("connected to Database".bgGreen);
