@@ -2,30 +2,30 @@ import memories from "../assets/memories.jpg";
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useState } from 'react';
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
+import { Link, useNavigate } from "react-router-dom"; 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const SignUp = () => {
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate(); 
   const {register, handleSubmit, formState: {errors}} = useForm();
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   
   const onSubmit = (data) => {
-    axios.post('https://memories-3.onrender.com', data)
+    axios.post('https://memories-3.onrender.com/users/register', data)
       .then(response => {
         // Handle success
         setSuccessMessage('Registration successful!'); 
-        setErrorMessage(''); // Clear error message
-        toast.success('Registration successful!'); // Display success toast
+        setErrorMessage(''); 
+        toast.success('Registration successful!'); 
         console.log('Response:', response.data);
-        navigate('/login'); // Redirect to login page using navigate
+        navigate('/login'); 
       })
       .catch(error => {
         // Handle error
         setErrorMessage('Registration failed. Please try again.'); 
-        setSuccessMessage(''); 
+        setSuccessMessage('');
         toast.error('Registration failed. Please try again.'); 
         console.error('Error:', error);
       });
