@@ -12,7 +12,7 @@ const Login = () => {
   const navigate = useNavigate();
   
   const onSubmit = (data) => {
-    axios.post('http://localhost:5000/users/login', data)
+    axios.post('https://memories-3.onrender.com/users/login', data)
       .then(response => {
         setErrorMessage('');
         toast.success('Login successful!');
