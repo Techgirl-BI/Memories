@@ -13,7 +13,7 @@ const SignUp = () => {
   const [errorMessage, setErrorMessage] = useState('');
   
   const onSubmit = (data) => {
-    axios.post('http://localhost:5000/users/register', data)
+    axios.post('https://memories-3.onrender.com', data)
       .then(response => {
         // Handle success
         setSuccessMessage('Registration successful!'); 
@@ -24,9 +24,9 @@ const SignUp = () => {
       })
       .catch(error => {
         // Handle error
-        setErrorMessage('Registration failed. Please try again.'); // Set error message
-        setSuccessMessage(''); // Clear success message
-        toast.error('Registration failed. Please try again.'); // Display error toast
+        setErrorMessage('Registration failed. Please try again.'); 
+        setSuccessMessage(''); 
+        toast.error('Registration failed. Please try again.'); 
         console.error('Error:', error);
       });
   }

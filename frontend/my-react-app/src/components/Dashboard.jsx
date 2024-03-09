@@ -27,7 +27,7 @@ const Dashboard = () => {
     const fetchMemories = async (page) => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/posts?page=${page}`
+          `https://memories-3.onrender.com/posts?page=${page}`
         );
         setMemories(response.data.data.docs);
       } catch (error) {
@@ -100,7 +100,7 @@ const Dashboard = () => {
     e.preventDefault();
     try {
       await axios
-        .post("http://localhost:5000/posts", newMemory)
+        .post("https://memories-3.onrender.com/posts", newMemory)
         .then((res) => console.log(res))
         .catch((err) => console.log(err));
       setNewMemory({
@@ -109,7 +109,7 @@ const Dashboard = () => {
         image: null,
       });
       const response = await axios.get(
-        `http://localhost:5000/posts?page=${page}`
+        `https://memories-3.onrender.com/posts?page=${page}`
       );
       setMemories(response.data.data.docs);
     } catch (error) {
@@ -119,7 +119,7 @@ const Dashboard = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/posts/${id}`);
+      await axios.delete(`https://memories-3.onrender.com/posts/${id}`);
       setMemories((prevMemories) =>
         prevMemories.filter((memory) => memory._id !== id)
       );
@@ -158,9 +158,9 @@ const Dashboard = () => {
         image: imageToUpdate,
       };
 
-      await axios.patch(`http://localhost:5000/posts/${id}`, memoryData);
+      await axios.patch(`https://memories-3.onrender.com/posts/${id}`, memoryData);
       const response = await axios.get(
-        `http://localhost:5000/posts?page=${page}`
+        `https://memories-3.onrender.com/posts?page=${page}`
       );
       setMemories(response.data.data.docs);
       setEditingMemoryId(null);
